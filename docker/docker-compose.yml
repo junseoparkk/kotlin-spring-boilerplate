@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.3.0
+    container_name: kt-mysql8
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_USER: example-user
+      MYSQL_PASSWORD: example-pw
+      MYSQL_DATABASE: example-db
+      MYSQL_ROOT_PASSWORD: root
+      TZ: 'Asia/Seoul'
+    volumes:
+      - kotlin-example-db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: redis:7.2.4-alpine
+    container_name: kt-redis7
+    command: redis-server --port 6379
+    restart: always
+    hostname: root
+    labels:
+      - 'mode:standalone'
+    ports:
+      - '6380:6379'
+
+volumes:
+  kotlin-example-db:
