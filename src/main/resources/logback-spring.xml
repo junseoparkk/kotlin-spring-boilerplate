@@ -1,0 +1,21 @@
+<configuration>
+    <!-- Log Pattern Definition -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%15.15t] [%X{request_id}] %-40.40logger{39} : %m%n%ex"/>
+
+    <!-- Console Appender -->
+    <appender name="THREAD_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger for application package -->
+    <logger additivity="false" level="INFO" name="com.example.kotlinspringpractice">
+        <appender-ref ref="THREAD_CONSOLE"/>
+    </logger>
+
+    <!-- Root Logger Configuration -->
+    <root level="INFO">
+        <appender-ref ref="THREAD_CONSOLE"/>
+    </root>
+</configuration>
