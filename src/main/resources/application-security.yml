@@ -20,6 +20,6 @@ spring:
 
 security:
   jwt:
-    secret-key: F1g5TUGj9e9JiyQJzFA9s5IbeG5nY7jLhcIJOJlHepSIajunt9girCPvrNuENr+bv7WdkCujOtur0A/41ompSg==
-    access-expired: 3600000
-    refresh-expired: 1209600000
+    secretKey: ${JWT_SECRET_KEY}
+    accessExpiration: 3600000
+    refreshExpiration: 1209600000

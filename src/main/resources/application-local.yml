@@ -5,6 +5,14 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
+  cookie:
+    max-age: 1234567890
+    path: /
+    same-site: Lax
+    domain: localhost
+    secure: false
+    http-only: true
+
   datasource:
     url: jdbc:mysql://${MYSQL_URL}
     username: ${MYSQL_USER}
