@@ -2,6 +2,8 @@ package com.kotlin.boilerplate.common.exception
 
 import jakarta.servlet.http.HttpServletRequest
 import mu.KotlinLogging
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -16,6 +18,12 @@ class GlobalExceptionAdvice {
     fun handleCustomException(ex: CustomException, request: HttpServletRequest): ErrorResponse {
         log.error(ex) { "CustomException has occurred: ${ex.message}"}
         return generateErrorResponse(request, ex.errorMessage)
+    }
+
+    @ExceptionHandler(value = [RuntimeException::class])
+    fun handleRuntimeException(ex: RuntimeException, request: HttpServletRequest): ResponseEntity<ErrorResponse> {
+        log.error(ex) { "RuntimeException has occurred: ${ex.message}" }
+        return generateErrorResponseEntity(request, ex.message!!)
     }
 
     @ExceptionHandler(NoHandlerFoundException::class)
@@ -56,5 +64,20 @@ class GlobalExceptionAdvice {
             code = errorMessage.code,
             message = customMessage ?: errorMessage.message
         )
+    }
+
+    private fun generateErrorResponseEntity(
+        request: HttpServletRequest,
+        errorMessage: String
+    ): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(
+            requestDetails = "[${request.method}] ${request.requestURI}",
+            status = ErrorMessage.INTERNAL_SERVER_ERROR.status,
+            code = ErrorMessage.INTERNAL_SERVER_ERROR.code,
+            message = errorMessage
+        )
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(errorResponse)
     }
 }

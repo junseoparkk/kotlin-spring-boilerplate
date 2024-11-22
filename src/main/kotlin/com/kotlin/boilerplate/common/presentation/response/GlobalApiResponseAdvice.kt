@@ -27,6 +27,10 @@ class GlobalApiResponseAdvice : ResponseBodyAdvice<Any> {
         request: ServerHttpRequest,
         response: ServerHttpResponse
     ): Any? {
+        if (request.uri.path == "/error") {
+            return body
+        }
+
         val responseDetails = "[${request.method}] ${request.uri.path}"
 
         return when (body) {
