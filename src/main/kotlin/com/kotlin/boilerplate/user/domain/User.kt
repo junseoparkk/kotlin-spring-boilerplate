@@ -9,7 +9,6 @@ class User(
     email: String,
     password: String,
     name: String,
-    role: UserRole,
     type: UserType,
     socialId: String? = null,
 ) : BaseEntity() {
@@ -24,10 +23,6 @@ class User(
     @Column(name = "name")
     var name: String = name
         protected set
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "user_role")
-    val userRole: UserRole = role
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type")

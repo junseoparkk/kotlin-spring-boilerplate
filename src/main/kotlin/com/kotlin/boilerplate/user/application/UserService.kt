@@ -2,7 +2,6 @@ package com.kotlin.boilerplate.user.application
 
 import com.kotlin.boilerplate.user.application.dto.UserSignupRequest
 import com.kotlin.boilerplate.user.domain.User
-import com.kotlin.boilerplate.user.domain.UserRole
 import com.kotlin.boilerplate.user.domain.UserType
 import com.kotlin.boilerplate.user.domain.repository.UserRepository
 import jakarta.transaction.Transactional
@@ -23,10 +22,14 @@ class UserService(
             email = request.email,
             password = passwordEncoder.encode(request.password),
             name = request.name,
-            type = UserType.GENERAL,
-            role = UserRole.USER
+            type = UserType.GENERAL
         )
         userRepository.save(createdUser)
+    }
+
+    fun getUserById(userId: Long): User {
+        return userRepository.findById(userId)
+            .orElseThrow { IllegalArgumentException("[ERROR] Not Exists User") }
     }
 
     private fun validateDuplicated(request: UserSignupRequest) {
